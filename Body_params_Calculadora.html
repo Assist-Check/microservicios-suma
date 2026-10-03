@@ -19,11 +19,10 @@
 
 <script>
 
-// --- IMPORTANTE: reemplaza estas 3 URLs por las que te asigne Render ---
-// despues de desplegar MicroservicioQ, MicroservicioP y MicroservicioB
-const URL_QUERY = 'http://127.0.0.1:3005';
-const URL_PATH  = 'http://127.0.0.1:3001';
-const URL_BODY  = 'http://127.0.0.1:3003';
+// URLs de los gateways desplegados en Render
+const URL_QUERY = 'https://microservicioq.onrender.com';
+const URL_PATH  = 'https://microserviciop.onrender.com';
+const URL_BODY  = 'https://microserviciob.onrender.com';
 
 // --- Botón 1: Query params (proxy → MicroservicioQ → SumaQ) ---
 const botonCalcular1 = document.getElementById('botonCalcular1');
@@ -41,6 +40,9 @@ botonCalcular1.addEventListener('click', function () {
   })
   .then(function (datos) {
     document.getElementById('salida').value = datos.resultado;
+  })
+  .catch(function (error) {
+    document.getElementById('salida').value = 'Error: ' + error.message;
   });
 
 });
@@ -61,6 +63,9 @@ botonCalcular2.addEventListener('click', function () {
   })
   .then(function (datos) {
     document.getElementById('salida').value = datos.resultado;
+  })
+  .catch(function (error) {
+    document.getElementById('salida').value = 'Error: ' + error.message;
   });
 
 });
@@ -83,6 +88,9 @@ botonCalcular3.addEventListener('click', function () {
   })
   .then(function (datos) {
     document.getElementById('salida').value = datos.resultado;
+  })
+  .catch(function (error) {
+    document.getElementById('salida').value = 'Error: ' + error.message;
   });
 
 });
