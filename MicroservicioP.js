@@ -50,6 +50,14 @@ const servidor = createServer((req, res) => {
     });
   });
 
+  peticionSaliente.on('error', (error) => {
+    console.error('Error al contactar el backend:', error.message);
+    res.statusCode = 502;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.end(JSON.stringify({ error: 'Backend no disponible' }));
+  });
+
   peticionSaliente.end();
 });
 
