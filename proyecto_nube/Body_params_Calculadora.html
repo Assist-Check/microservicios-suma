@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+
+<input type="text" id="valorA" style="width:1000px;" placeholder="Valor A">
+<br><br><br>
+<input type="text" id="valorB" style="width:1000px;" placeholder="Valor B">
+<br><br><br>
+<button id="botonCalcular1" style="background-color:orange; color:white;">Query params</button>
+<button id="botonCalcular2" style="background-color:green; color:white;">Path params</button>
+<button id="botonCalcular3" style="background-color:red; color:white;">Body params</button>
+<br><br><br>
+<input type="text" id="salida" style="width:1000px;" placeholder="Salida">
+
+<script>
+
+// --- IMPORTANTE: reemplaza estas 3 URLs por las que te asigne Render ---
+// despues de desplegar MicroservicioQ, MicroservicioP y MicroservicioB
+const URL_QUERY = 'http://127.0.0.1:3005';
+const URL_PATH  = 'http://127.0.0.1:3001';
+const URL_BODY  = 'http://127.0.0.1:3003';
+
+// --- Botón 1: Query params (proxy → MicroservicioQ → SumaQ) ---
+const botonCalcular1 = document.getElementById('botonCalcular1');
+
+botonCalcular1.addEventListener('click', function () {
+
+  const valorA = document.getElementById('valorA').value;
+  const valorB = document.getElementById('valorB').value;
+
+  fetch(`${URL_QUERY}/?dato1=${valorA}&dato2=${valorB}`, {
+    method: 'GET'
+  })
+  .then(function (respuesta) {
+    return respuesta.json();
+  })
+  .then(function (datos) {
+    document.getElementById('salida').value = datos.resultado;
+  });
+
+});
+
+// --- Botón 2: Path params (proxy → MicroservicioP → SumaP) ---
+const botonCalcular2 = document.getElementById('botonCalcular2');
+
+botonCalcular2.addEventListener('click', function () {
+
+  const valorA = document.getElementById('valorA').value;
+  const valorB = document.getElementById('valorB').value;
+
+  fetch(`${URL_PATH}/${valorA}/${valorB}`, {
+    method: 'GET'
+  })
+  .then(function (respuesta) {
+    return respuesta.json();
+  })
+  .then(function (datos) {
+    document.getElementById('salida').value = datos.resultado;
+  });
+
+});
+
+// --- Botón 3: Body params (proxy → MicroservicioB → SumaB) ---
+const botonCalcular3 = document.getElementById('botonCalcular3');
+
+botonCalcular3.addEventListener('click', function () {
+
+  const valorA = document.getElementById('valorA').value;
+  const valorB = document.getElementById('valorB').value;
+
+  fetch(`${URL_BODY}/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dato1: valorA, dato2: valorB })
+  })
+  .then(function (respuesta) {
+    return respuesta.json();
+  })
+  .then(function (datos) {
+    document.getElementById('salida').value = datos.resultado;
+  });
+
+});
+
+</script>
+
+</body>
+</html>
